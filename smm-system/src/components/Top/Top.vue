@@ -46,17 +46,20 @@ export default {
 <style lang="less">
     .top {
         // background-color: red;
-        border-bottom: 2px solid green;
+        border-bottom: 2px solid rgba(226, 226, 226, 0.49);
         .title {
+            color: #fff;
             text-align: left;
             font-size: 20px;
             font-weight: 900;
         }
         .top-right {
-            color: #2d3a4b;
+            color: #fff;
             text-align: right;
             .username {
-               font-weight: 600;
+
+                font-size: 16px;
+                color: rgb(180, 80, 9);
             }
             .avatar {
                 width: 52px;
