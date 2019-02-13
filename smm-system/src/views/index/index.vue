@@ -4,11 +4,8 @@
         <el-container>
             <Nav></Nav>
             <el-container>
-                <el-header><Top></Top></el-header>
-                <el-main>
-                    <router-view />
-                </el-main>
-                <el-footer><Bottom></Bottom></el-footer>
+                <router-view></router-view>
+
             </el-container>
         </el-container>
     </div>
@@ -19,14 +16,9 @@
 //注册自定义导航组件
 import Nav from "@/components/Nav/Nav.vue";
 
-import Bottom from "@/components/Bottom/Bottom.vue";
-
-import Top from "@/components/Top/Top.vue";
 export default {
     components:{
-    Nav,
-    Bottom,
-    Top
+    Nav
     }
 };
 
@@ -42,10 +34,13 @@ export default {
 
 
         .el-main {
+
             color: #333;
             text-align: center;
+            line-height: 160px;
         }
         .el-header, .el-footer {
+
              color: #333;
              text-align: center;
              line-height: 60px;

@@ -1,5 +1,6 @@
 <template>
     <div class="top">
+        <el-header>
         <el-row>
             <el-col :span="12">
                 <div  class="title">
@@ -31,7 +32,9 @@
                 </div>
             </el-col>
         </el-row>
+        </el-header>
     </div>
+
 </template>
 <script>
 export default {
@@ -44,35 +47,41 @@ export default {
 }
 </script>
 <style lang="less">
-    .top {
-        // background-color: red;
-        border-bottom: 2px solid rgba(226, 226, 226, 0.49);
-        .title {
-            color: #fff;
-            text-align: left;
-            font-size: 20px;
-            font-weight: 900;
-        }
-        .top-right {
-            color: #fff;
-            text-align: right;
-            .username {
 
-                font-size: 16px;
-                color: rgb(180, 80, 9);
+        .top {
+            .el-header {
+                margin: 0 20px;
+                line-height: 60px;
+            // background-color: red;
+            border-bottom: 2px solid rgba(226, 226, 226, 0.49);
+            .title {
+                color: #fff;
+                text-align: left;
+                font-size: 20px;
+                font-weight: 900;
             }
-            .avatar {
-                width: 52px;
-                height: 52px;
-                margin-top: 4px;
-                margin-left: 30px;
-                border-radius: 50%;
-                img {
+            .top-right {
+                color: #fff;
+                text-align: right;
+                .username {
+
+                    font-size: 16px;
+                    color: #ff9500;
+                }
+                .avatar {
+                    width: 52px;
+                    height: 52px;
+                    margin-top: 4px;
+                    margin-left: 30px;
                     border-radius: 50%;
+                    img {
+                        border-radius: 50%;
+                    }
                 }
             }
         }
     }
+
 </style>
 
 
