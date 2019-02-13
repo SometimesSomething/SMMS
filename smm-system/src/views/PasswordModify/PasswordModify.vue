@@ -23,51 +23,45 @@
     </el-card>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
       form: {
-        password,
-        newpwd,
-        newpass,
+        password: ""
       }
     };
-  },
-  methods: {
-    onSubmit() {
-      console.log("submit!");
-    }
   }
 };
 </script>
 <style lang=less>
-.passwordmodify  {
-  .el-card {
-    .el-card__header {
-      text-align: left;
-      height:60px;
-      line-height: 60px;
-      font-weight: 600;
-      background-color: #f1f1f1;
-      .title{
+.el-main {
+  .passwordmodify {
+    .el-card {
+      background: rgba(235, 235, 235, 0.29);
+      .el-card__header {
+        text-align: left;
         font-size: 20px;
+        line-height: 40px;
+        color: #fff;
       }
-    }
-    .el-card__body {
-      width: 600px;
-      .el-form {
-        width: 420px;
-        .el-form-item {
-          .el-form-item__content {
-              margin-left:0;
-            .el-input {
-              width: 300px;
+      .el-card__body {
+        width: 600px;
+        .el-form {
+          width: 420px;
+          .el-form-item {
+            .el-form-item__content {
+              margin-left: 0;
+              .el-input {
+                width: 300px;
+              }
+              .el-button {
+                background-color: rgba(11, 133, 96, 0.86);
+              }
             }
-          }
-          .el-form-item__label {
-            width: 100px !important;
+            .el-form-item__label {
+              width: 100px !important;
+            }
           }
         }
       }

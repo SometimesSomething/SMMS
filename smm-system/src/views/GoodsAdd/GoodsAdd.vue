@@ -83,15 +83,12 @@ export default {
 <style lang=less>
 .goodsadd {
   .el-card {
+     background: rgba(235, 235, 235, 0.29);
     .el-card__header {
       text-align: left;
-      height:60px;
-      line-height: 60px;
-      font-weight: 600;
-      background-color: #f1f1f1;
-      .title{
-        font-size: 20px;
-      }
+       font-size: 20px;
+        line-height: 40px;
+        color: #fff;
     }
     .el-card__body {
       width: 600px;
@@ -101,6 +98,9 @@ export default {
           .el-form-item__content {
             .el-input {
               width: 300px;
+            }
+            .el-button{
+               background-color: rgba(11, 133, 96, 0.86);
             }
           }
           .el-form-item__label {

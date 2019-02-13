@@ -98,26 +98,24 @@ export default {
 .el-main {
   .goodsmanagement {
     .el-card {
+      background: rgba(235, 235, 235, 0.29);
       .el-card__header {
-          text-align: left;
-        height: 60px;
-        line-height: 60px;
-        font-weight: 600;
-        background-color: #f1f1f1;
-        .title {
-          font-size: 20px;
-        }
-        .el-card__body {
-          .el-form {
-            .el-row {
-              .grid-content {
-                height: 40px;
-                .el-form-item {
-                  .el-form-item__content {
-                    margin-left: 0;
-                    height: 40px;
-                    line-height: 40px;
-                  }
+        text-align: left;
+        font-size: 20px;
+        line-height: 40px;
+        color: #fff;
+    
+      }
+      .el-card__body {
+        .el-form {
+          .el-row {
+            .grid-content {
+              height: 60px;
+              .el-form-item {
+                .el-form-item__content {
+                  margin-left: 0;
+                  height: 40px;
+                  line-height: 40px;
                 }
               }
             }
@@ -128,7 +126,7 @@ export default {
     .el-pagination {
       .el-pager {
         li.active {
-          background-color: "rgba(255, 0, 22, 0.09)";
+          background-color: rgba(11, 133, 96, 0.86);
         }
       }
     }
