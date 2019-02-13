@@ -5,7 +5,9 @@
             <Nav></Nav>
             <el-container>
                 <el-header><Top></Top></el-header>
-                <el-main>Main</el-main>
+                <el-main>
+                    <router-view />
+                </el-main>
                 <el-footer><Bottom></Bottom></el-footer>
             </el-container>
         </el-container>
@@ -40,13 +42,10 @@ export default {
 
 
         .el-main {
-
             color: #333;
             text-align: center;
-            line-height: 160px;
         }
         .el-header, .el-footer {
-
              color: #333;
              text-align: center;
              line-height: 60px;

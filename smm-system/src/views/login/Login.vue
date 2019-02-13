@@ -105,13 +105,14 @@ html,body,#app{
      padding:0;
      .login{
          height:100%;
-         background-color:rgba(215, 249, 250,0.5);
+         background-image:url("../../assets/1.4.jpg") ;
      }
 }
  .login-form{
      width: 500px;
      height: 300px;
-     background-color: rgb(215, 249, 250);
+     color: #ffffff;
+     background-color: rgba(255, 0, 22, 0.09);
      position: fixed;
      top:0;
      left: 0;
@@ -122,6 +123,9 @@ html,body,#app{
      padding:20px 50px 0 20px;
      .title{
         padding-left: 20px;
+     }
+     .el-form-item{
+        color: #ffffff;
      }
  }
 </style>
