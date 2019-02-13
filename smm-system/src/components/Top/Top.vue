@@ -50,9 +50,7 @@ export default {
 
         .top {
             .el-header {
-                margin: 0 20px;
                 line-height: 60px;
-            // background-color: red;
             border-bottom: 2px solid rgba(226, 226, 226, 0.49);
             .title {
                 color: #fff;

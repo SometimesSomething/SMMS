@@ -14,7 +14,6 @@ export default {
 
     .bottom {
         .el-footer {
-            margin: 0 20px;
             line-height: 60px;
             color: #fff;
             border-top: 2px solid rgba(226, 226, 226, 0.49);

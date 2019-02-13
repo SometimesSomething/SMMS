@@ -128,7 +128,7 @@ export default {
     .el-pagination {
       .el-pager {
         li.active {
-          background-color: "rgba(255, 0, 22, 0.09)";
+          background-color: rgba(11, 133, 96, 0.86);
         }
       }
     }
