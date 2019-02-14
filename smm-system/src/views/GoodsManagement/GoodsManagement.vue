@@ -96,6 +96,7 @@ export default {
 </script>
 <style lang=less>
 .el-main {
+  line-height: 0;
   .goodsmanagement {
     .el-card {
       background: rgba(235, 235, 235, 0.29);
@@ -111,6 +112,11 @@ export default {
           .el-row {
             .grid-content {
               height: 60px;
+              .el-button--success{
+                margin-left: 20px;
+                background: rgba(11, 133, 96, 0.86);
+                border: rgba(11, 133, 96, 0.86);
+              }
               .el-form-item {
                 .el-form-item__content {
                   margin-left: 0;
@@ -124,6 +130,7 @@ export default {
       }
     }
     .el-pagination {
+      margin-top: 20px;
       .el-pager {
         li.active {
           background-color: rgba(11, 133, 96, 0.86);
