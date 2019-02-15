@@ -3,9 +3,9 @@
         <p class="title">华联超市管理系统</p>
         <el-menu
                  background-color="rgba(255, 0, 22, 0.09)"
-                 unique-opened="true"
-                 :default-active="this.$router.path"
-                 router=""
+                 unique-opened
+                 :default-active="this.$route.path"
+                 router
         >
             <!--导航1-->
             <el-submenu index="1">
