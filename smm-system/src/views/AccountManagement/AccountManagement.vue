@@ -16,29 +16,40 @@
                                 type="selection">
                         </el-table-column>
 
+                        <!--用户名-->
                         <el-table-column
                                 prop="userName"
                                 label="用户名">
                         </el-table-column>
+
+                        <!--用户组-->
                         <el-table-column
                                 prop="usergroup"
                                 label="用户组"
                                 show-overflow-tooltip>
                         </el-table-column>
 
+                        <!--添加时间-->
                         <el-table-column
                                 label="日期">
                             <template slot-scope="scope">{{ scope.row.date }}</template>
                         </el-table-column>
+
+                        <!--修改删除-->
                         <el-table-column label="操作">
                             <template slot-scope="scope">
                                 <el-button
+                                        type="Info"
                                         size="mini"
-                                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                        @click="handleEdit(scope.$index, scope.row)">
+                                    <i class="el-icon-edit"></i>编辑
+                                </el-button>
                                 <el-button
                                         size="mini"
                                         type="danger"
-                                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                        @click="handleDelete(scope.$index, scope.row)">
+                                    <i class="el-icon-delete"></i>删除
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -55,12 +66,20 @@
     export default {
         data() {
             return {
-                AccoutManagement: [{
+                AccoutManagement: [
+                    {
                     userName: '王小虎',
                     usergroup: '普通管理员',
                     date: '2016-05-03'
-                }],
+                    },
+                    {
+                        userName: '王小虎',
+                        usergroup: '普通管理员',
+                        date: '2016-05-03'
+                    },
 
+                ],
+                multipleSelection: []
             }
         },
         methods: {
