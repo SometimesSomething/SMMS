@@ -84,6 +84,9 @@
                     ],
                     checkPass:[
                         { required: true, validator:checkPwd, trigger: 'blur' }
+                    ],
+                    usergroup:[
+                        { required: true, message:"请选择用户组", trigger: 'change' }
                     ]
                 }
 

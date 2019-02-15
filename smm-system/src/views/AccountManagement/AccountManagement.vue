@@ -6,6 +6,42 @@
                     <span>账号管理</span>
                 </div>
                 <div class="text item">
+                    <el-table
+                            ref="multipleTable"
+                            :data="AccoutManagement"
+                            tooltip-effect="dark"
+                            style="width: 100%"
+                            @selection-change="handleSelectionChange">
+                        <el-table-column
+                                type="selection">
+                        </el-table-column>
+
+                        <el-table-column
+                                prop="userName"
+                                label="用户名">
+                        </el-table-column>
+                        <el-table-column
+                                prop="usergroup"
+                                label="用户组"
+                                show-overflow-tooltip>
+                        </el-table-column>
+
+                        <el-table-column
+                                label="日期">
+                            <template slot-scope="scope">{{ scope.row.date }}</template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+                                <el-button
+                                        size="mini"
+                                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                <el-button
+                                        size="mini"
+                                        type="danger"
+                                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
 
                 </div>
             </el-card>
@@ -17,7 +53,37 @@
 <script>
 
     export default {
+        data() {
+            return {
+                AccoutManagement: [{
+                    userName: '王小虎',
+                    usergroup: '普通管理员',
+                    date: '2016-05-03'
+                }],
 
+            }
+        },
+        methods: {
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            }
+        }
     }
 </script>
 <style lang="less">
