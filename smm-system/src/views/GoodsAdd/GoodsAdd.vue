@@ -100,7 +100,8 @@ export default {
               width: 300px;
             }
             .el-button{
-               background-color: rgba(11, 133, 96, 0.86);
+              background-color: rgba(11, 133, 96, 0.86);
+              border: rgba(11, 133, 96, 0.86);
             }
           }
           .el-form-item__label {

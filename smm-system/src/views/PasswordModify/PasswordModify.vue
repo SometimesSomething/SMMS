@@ -57,6 +57,9 @@ export default {
               }
               .el-button {
                 background-color: rgba(11, 133, 96, 0.86);
+                }
+              .el-button--primary{
+                border:  rgba(11, 133, 96, 0.86);
               }
             }
             .el-form-item__label {

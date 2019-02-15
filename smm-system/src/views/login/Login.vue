@@ -121,11 +121,20 @@ html,body,#app{
      margin: auto;
      border-radius: 10px;
      padding:20px 50px 0 20px;
+     .el-button--primary{
+         background:rgba(11, 133, 96, 0.86);
+         border:rgba(11, 133, 96, 0.86);
+     }
      .title{
         padding-left: 20px;
      }
      .el-form-item{
         color: #ffffff;
+
      }
+     .el-form-item__label{
+         color: #fff;
+     }
+
  }
 </style>
