@@ -14,10 +14,10 @@
                 <el-input v-model.number="loginForm.username"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="pass">
-                <el-input type="text" v-model="loginForm.pass" autocomplete="off"></el-input>
+                <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="text" v-model="loginForm.checkPass" autocomplete="off"></el-input>
+                <el-input type="password" v-model="loginForm.checkPass" autocomplete="off"></el-input>
             </el-form-item>
 
             <el-form-item>
