@@ -4,8 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/goods');
-var usersRouter = require('./routes/account');
+// 引入子路由
+var indexRouter = require('./routes/index');
+var accountRouter = require('./routes/account');
+var goodsRouter = require('./routes/goods');
+var inventoryRouter = require('./routes/inventory');
 
 var app = express();
 
@@ -19,8 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 分配路由
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/account', accountRouter);
+app.use('/goods', goodsRouter);
+app.use('/inventory',inventoryRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,7 +43,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// 监听端口
 app.listen(5555, () => {
-  console.log('服务器启动成功，地址是：http://127.0.0.1:5555')
+  console.log('后端服务器启动成功，地址是: http://127.0.0.1:5555')
 })
 module.exports = app;

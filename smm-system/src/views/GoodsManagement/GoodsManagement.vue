@@ -10,9 +10,13 @@
             <el-col :span="4">
               <div class="grid-content bg-purple">
                 <el-form-item label>
-                  <el-select v-model="form.region" placeholder="---选择分类---">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                  <el-select v-model="form.classify" placeholder="---选择分类---">
+                    <el-option label="饮料冲调" value="饮料冲调"></el-option>
+                    <el-option label="休闲食品" value="休闲食品"></el-option>
+                    <el-option label="家居日用" value="家居日用"></el-option>
+                    <el-option label="粮油调味" value="粮油调味"></el-option>
+                    <el-option label="美容护理" value="美容护理"></el-option>
+                    <el-option label="电子数码" value="电子数码"></el-option>
                   </el-select>
                 </el-form-item>
               </div>
@@ -20,7 +24,7 @@
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
                 <el-form-item label="关键字：">
-                  <el-input v-model="form.name"></el-input>
+                  <el-input v-model="form.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
@@ -32,17 +36,26 @@
           </el-row>
         </el-form>
       </div>
-      <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="date" label="商品条形码" width="180"></el-table-column>
-        <el-table-column prop="name" label="商品名称" width="180"></el-table-column>
-        <el-table-column prop="address" label="所属分类"></el-table-column>
-        <el-table-column prop="date" label="售价(元)" width="180"></el-table-column>
-        <el-table-column prop="name" label="促销价(元)" width="180"></el-table-column>
-        <el-table-column prop="address" label="市场价(元)"></el-table-column>
-        <el-table-column prop="date" label="库存" width="180"></el-table-column>
-        <el-table-column prop="name" label="库存总额(元)" width="180"></el-table-column>
-        <el-table-column prop="address" label="销售总额(元)"></el-table-column>
-        <el-table-column prop="address" label="管理"></el-table-column>
+      <el-table :data=" goodsInfor" stripe style="width: 100%">
+        <el-table-column prop="code" label="商品条形码" width="180"></el-table-column>
+        <el-table-column prop="goodsname" label="商品名称" width="180"></el-table-column>
+        <el-table-column prop="classify" label="所属分类"></el-table-column>
+        <el-table-column prop="price" label="售价(元)" width="180"></el-table-column>
+        <el-table-column prop="saleprice" label="促销价(元)" width="180"></el-table-column>
+        <el-table-column prop="vendibility" label="市场价(元)"></el-table-column>
+        <el-table-column prop="quantity" label="库存" width="180"></el-table-column>
+        <el-table-column prop="totalinventory" label="库存总额(元)" width="180"></el-table-column>
+        <el-table-column prop="totalsales" label="销售总额(元)"></el-table-column>
+        <el-table-column prop="manage" label="管理">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="handleEdit(scope.row.id)">
+              <i class="el-icon-edit"></i>
+            </el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">
+              <i class="el-icon-delete"></i>
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
     <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
@@ -50,46 +63,49 @@
 </template>
 
 <script>
+// 引入moment模块
+import moment from "moment";
+// 引入qs模块
+import qs from "qs";
+
 export default {
   data() {
     return {
+      goodsInfor: [],
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+        classify: "",
+        code: "",
+        goodsname: "",
+        price: "",
+        vendibility: "",
+        quantity: "",
+        saleprice: "",
+        totalinventory: "",
+        totalsales: ""
+      }
     };
   },
+  created() {
+    this.getGoodsList();
+  },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    getGoodsList() {
+      this.axios
+        .get("http://127.0.0.1:5555/goods/goodsmanagment")
+        .then(response => {
+          this.goodsInfor = response.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleEdit(id) {
+      this.editid = id;
+      this.axios
+        .get(`http://127.0.0.1:5555/goods/goodsedit?id=${id}`)
+        .then(response => {
+          console.log(response.data);
+        });
     }
   }
 };
@@ -105,14 +121,13 @@ export default {
         font-size: 20px;
         line-height: 40px;
         color: #fff;
-    
       }
       .el-card__body {
         .el-form {
           .el-row {
             .grid-content {
               height: 60px;
-              .el-button--success{
+              .el-button--success {
                 margin-left: 20px;
                 background: rgba(11, 133, 96, 0.86);
                 border: rgba(11, 133, 96, 0.86);
