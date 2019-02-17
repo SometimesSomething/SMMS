@@ -112,7 +112,7 @@ html,body,#app{
      width: 500px;
      height: 300px;
      color: #ffffff;
-     background-color: rgba(255, 0, 22, 0.09);
+     background-color:  rgba(235, 235, 235, 0.29);
      position: fixed;
      top:0;
      left: 0;
