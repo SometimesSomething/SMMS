@@ -83,8 +83,9 @@ export default {
             let params={
                 username:this.loginForm.username,
                 password:this.loginForm.pass,
-            }
-            console.log(params)
+            };
+            console.log(params);
+              this.$router.push("/")
           } else {
             console.log('error submit!!');
             return false;
@@ -93,7 +94,7 @@ export default {
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      }
+      },
     }
 };
 </script>

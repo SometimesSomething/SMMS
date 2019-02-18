@@ -18,10 +18,10 @@
             <el-input v-model.number="addusersForm.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pass">
-            <el-input type="text" v-model="addusersForm.pass" autocomplete="off"></el-input>
+            <el-input type="password" v-model="addusersForm.pass" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="text" v-model="addusersForm.checkPass" autocomplete="off"></el-input>
+            <el-input type="password" v-model="addusersForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
 
           <el-form-item label="选择用户组" prop="usergroup">
@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-
+    import qs from "qs";
     export default {
         data() {
             const password=(rule,value,callback)=>{
@@ -57,7 +57,7 @@
                     }
                     callback();
                 }
-            }
+            };
 
             const checkPwd=(rule,value,callback)=>{
                 if(value === ''){
@@ -66,7 +66,7 @@
                     callback(new Error("两次密码不一致"))
                 }
                 callback();
-            }
+            };
             return {
                 addusersForm: {
                     username:'',
@@ -102,7 +102,26 @@
                             password:this.addusersForm.pass,
                             usergroup:this.addusersForm.usergroup,
                         };
-                        console.log(params)
+                        // console.log("后台接收数据:",qs.stringify(params));
+                        //使用axios发送数据给后端
+                        this.axios.post("http://127.0.0.1:5555/Account/AccountAdd",qs.stringify(params))
+                          .then(response =>{
+                              console.log(response.data);
+
+                              let {error_code,reason}= response.data;
+                              if(response.data.error_code ===0){
+                                  this.$message({
+                                      message:reason,
+                                      type: 'success'
+                                  });
+                                  this.$router.push("/AccountManagement")
+                              }else {
+                                  this.$message.error(reason);
+                              }
+                        }).catch(err =>{
+                                console.log(err)
+                            })
+
                     } else {
                         console.log('error submit!!');
                         return false;
