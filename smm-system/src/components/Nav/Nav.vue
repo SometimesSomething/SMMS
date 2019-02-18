@@ -22,13 +22,18 @@
             <!--导航3-->
             <el-submenu index="3">
                 <template slot="title"><i class="el-icon-goods"></i>商品管理</template>
-                <el-menu-item index="GoodsManagement">商品管理</el-menu-item>
-                <el-menu-item index="GoodsAdd">添加商品</el-menu-item>
+                <el-menu-item index="/GoodsManagement">商品管理</el-menu-item>
+                <el-menu-item index="/GoodsAdd">添加商品</el-menu-item>
             </el-submenu>
             <!--导航4-->
             <el-submenu index="4">
                 <template slot="title"><i class="el-icon-edit-outline"></i>统计管理</template>
-                <el-menu-item index="SaleStatistics">销售统计</el-menu-item>
+                <el-menu-item index="/SaleStatistics">销售统计</el-menu-item>
+            </el-submenu>
+             <el-submenu index="5">
+                <template slot="title"><i class="el-icon-edit-outline"></i>进货管理</template>
+                <el-menu-item index="/CommodityStorage">添加库存</el-menu-item>
+                <el-menu-item index="/InventoryManagement">库存管理</el-menu-item>
             </el-submenu>
         </el-menu>
     </el-aside>

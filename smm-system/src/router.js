@@ -48,6 +48,16 @@ export default new Router({
           name: 'SaleStatistics',
           component: () => import( './views/SaleStatistics/SaleStatistics.vue')
         },
+        {
+          path: '/commoditystorage',
+          name: 'commoditystorage',
+          component: () => import( './views/CommodityStorage/CommodityStorage.vue')
+        },
+        {
+          path: '/inventorymanagement',
+          name: 'inventorymanagement',
+          component: () => import( './views/InventoryManagement/InventoryManagement.vue')
+        },
       ]
     },
    
