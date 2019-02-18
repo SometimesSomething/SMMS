@@ -31,9 +31,15 @@
                 <el-menu-item index="/SaleStatistics">销售统计</el-menu-item>
             </el-submenu>
              <el-submenu index="5">
-                <template slot="title"><i class="el-icon-edit-outline"></i>进货管理</template>
+                <template slot="title"><i class="el-icon-circle-plus-outline"></i>进货管理</template>
                 <el-menu-item index="/CommodityStorage">添加库存</el-menu-item>
                 <el-menu-item index="/InventoryManagement">库存管理</el-menu-item>
+            </el-submenu>
+            <el-submenu index="6">
+                <template slot="title"><i class="el-icon-sold-out"></i>出货管理</template>
+                <el-menu-item index="/SalesList">销售列表</el-menu-item>
+                <el-menu-item index="/CommodityOut">商品出库</el-menu-item>
+                <el-menu-item index="/ProductReturn">商品退货</el-menu-item>
             </el-submenu>
         </el-menu>
     </el-aside>

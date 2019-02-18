@@ -112,7 +112,7 @@ export default {
           { required: true, message: "请选择商品分类", trigger: "change" }
         ],
         code: [
-          { required: true, message: "请输入商品条形码", trigger: "blur" }
+          { required: true, message: "请输入商品条形码", trigger: "change" }
         ],
         goodsname: [
           { required: true, message: "请输入商品名称", trigger: "blur" }

@@ -1,35 +1,40 @@
 <template>
-  <div class="inventorymanagement">
+  <div class="salelist">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span class="title">库存管理</span>
+        <span class="title">销售明细</span>
       </div>
       <div class="text item">
         <el-form ref="form" :model="form" label-width="80px">
           <el-row>
-            <el-col :span="4">
+            <el-col :span="6">
               <div class="grid-content bg-purple">
-                <el-form-item label>
-                  <el-select v-model="form.classify" placeholder="---选择分类---">
-                    <el-option label="饮料冲调" value="饮料冲调"></el-option>
-                    <el-option label="休闲食品" value="休闲食品"></el-option>
-                    <el-option label="家居日用" value="家居日用"></el-option>
-                    <el-option label="粮油调味" value="粮油调味"></el-option>
-                    <el-option label="美容护理" value="美容护理"></el-option>
-                    <el-option label="电子数码" value="电子数码"></el-option>
-                  </el-select>
+                <el-form-item label="开始时间：">
+                  <el-input v-model="form.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple-light">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <el-form-item label="结束时间：">
+                  <el-input v-model="form.keyword"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple-light">(格式：2019-01-01)</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
                 <el-form-item label="关键字：">
                   <el-input v-model="form.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
-            <el-col :span="4">
-              <div class="grid-content bg-purple-light">
+            <el-col :span="6">
+              <div class="grid-content bg-purple-light">商品名称,订单号,客户名字,会员卡号
                 <el-button type="success" round>查询</el-button>
               </div>
             </el-col>
@@ -55,14 +60,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-pagination
-      background
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-size="pageSize"
-      layout="prev,pager,next,jumper"
-      :total="total"
-    ></el-pagination>
+    <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
 </template>
 
@@ -83,52 +81,22 @@ export default {
         storage: "",
         quantity: "",
         sold: ""
-      },
-      editid: "",
-      total: 0,
-      currentPage: 1 ,
-      pageSize:5
+      }
     };
   },
   created() {
-    // this.getStorageList();
-    this.getInventoryListByPage();
+    this.getStorageList();
   },
   methods: {
-    // getStorageList() {
-    //   this.axios
-    //     .get("http://127.0.0.1:5555/inventory/inventorymanagement")
-    //     .then(response => {
-    //       this.goodsInfor = response.data;
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
-    getInventoryListByPage() {
-      let currentPage = this.currentPage;
+    getStorageList() {
       this.axios
-        .get("http://127.0.0.1:5555/inventory/inventorylistbypage", {
-          params: {
-            currentPage
-          }
-        })
+        .get("http://127.0.0.1:5555/inventory/inventorymanagement")
         .then(response => {
-          let { total, data } = response.data;
-          this.total = total;
-          this.goodsInfor = data;
-          if (!data.length && this.currentPage !== 1) {
-            this.currentPage -= 1;
-            this.getInventoryListByPage();
-          }
+          this.goodsInfor = response.data;
         })
         .catch(err => {
           console.log(err);
         });
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getGoodsListByPage();
     },
     handleEdit(id) {
       this.editid = id;
@@ -163,7 +131,7 @@ export default {
               let { error_code, reason } = response.data;
               // 根据后端响应的数据判断
               if (error_code === 0) {
-                this.getInventoryListByPage();
+                this.getGoodsList();
                 // 弹出成功的提示
                 this.$message({
                   type: "success",
@@ -188,7 +156,7 @@ export default {
 <style lang=less>
 .el-main {
   line-height: 0;
-  .inventorymanagement {
+  .salelist {
     .el-card {
       background: rgba(235, 235, 235, 0.29);
       .el-card__header {
@@ -202,6 +170,9 @@ export default {
           .el-row {
             .grid-content {
               height: 60px;
+              line-height: 40px;
+              font-size: 14px;
+              margin-right: 10px;
               .el-button--success {
                 margin-left: 20px;
                 background: rgba(11, 133, 96, 0.86);
@@ -212,6 +183,12 @@ export default {
                   margin-left: 0;
                   height: 40px;
                   line-height: 40px;
+                  .el-input{
+                      width:90%;
+                  }
+                }
+                .el-form-item__label {
+                  width: 100px !important;
                 }
               }
             }

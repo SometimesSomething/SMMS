@@ -36,7 +36,7 @@
           </el-row>
         </el-form>
       </div>
-      <el-table :data=" goodsInfor" stripe style="width: 100%">
+      <el-table :data="goodsInfor" stripe style="width: 100%">
         <el-table-column prop="code" label="商品条形码" width="180"></el-table-column>
         <el-table-column prop="goodsname" label="商品名称" width="180"></el-table-column>
         <el-table-column prop="classify" label="所属分类"></el-table-column>
@@ -58,7 +58,16 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[1, 3, 5, 10, 20, 50]"
+      :page-size="pageSize"
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 
@@ -82,11 +91,17 @@ export default {
         saleprice: "",
         totalinventory: "",
         totalsales: ""
-      }
+      },
+      editid:"",
+      total:0,
+      currentPage: 1, // 当前页
+      pageSize:3
+
     };
   },
   created() {
-    this.getGoodsList();
+    // this.getGoodsList();
+    this.getGoodsListByPage();
   },
   methods: {
     getGoodsList() {
@@ -99,14 +114,96 @@ export default {
           console.log(err);
         });
     },
+      //分页
+    getGoodsListByPage() {
+      let pageSize = this.pageSize;
+      let currentPage = this.currentPage;
+      this.axios
+        .get("http://127.0.0.1:5555/goods/goodslistbypage",{params:{
+          pageSize,
+          currentPage
+        }
+        })
+        .then(response=>{
+          let {total,data}=response.data;
+         this.total = total;
+          this.goodsInfor = data;
+          if ( !data.length && this.currentPage !== 1) {
+            this.currentPage -= 1;
+            this.getGoodsListByPage();
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+       handleSizeChange(val) {
+      // 保存每页显示的条数
+      this.pageSize = val;
+      // 调用分页函数
+      this.getGoodsListByPage();
+    },
+    // 当前页码改变 就会触发这个函数
+    handleCurrentChange(val) {
+      // 保存当前页码
+      this.currentPage = val;
+      // 调用分页函数
+      this.getGoodsListByPage();
+    },
+    //编辑
     handleEdit(id) {
       this.editid = id;
       this.axios
         .get(`http://127.0.0.1:5555/goods/goodsedit?id=${id}`)
         .then(response => {
-          console.log(response.data);
+          let { error_code, reason } = response.data;
+
+          // 根据后端响应的数据判断
+          if (error_code === 0) {
+            // 弹出成功的提示
+            this.$message({
+              type: "success",
+              message: reason
+            });
+          } else {
+            this.$message.error(reason);
+          }
         });
-    }
+    },
+    //删除
+    handleDelete(id) {
+      this.$confirm("你确定要删除吗？", "删除提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.axios
+            .get(`http://127.0.0.1:5555/goods/goodsdelete?id=${id}`)
+            .then(response => {
+              let { error_code, reason } = response.data;
+              // 根据后端响应的数据判断
+              if (error_code === 0) {
+                this.getGoodsListByPage();
+                // 弹出成功的提示
+                this.$message({
+                  type: "success",
+                  message: reason
+                });
+              } else {
+                this.$message.error(reason);
+              }
+            });
+        })
+        .catch(err => {
+          // 弹出成功的提示
+          this.$message({
+            type: "info",
+            message: "删除取消"
+          });
+        });
+    },
+  
   }
 };
 </script>
@@ -150,6 +247,9 @@ export default {
         li.active {
           background-color: rgba(11, 133, 96, 0.86);
         }
+      }
+      .el-pagination__jump{
+        color:#fff;
       }
     }
   }

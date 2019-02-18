@@ -58,6 +58,21 @@ export default new Router({
           name: 'inventorymanagement',
           component: () => import( './views/InventoryManagement/InventoryManagement.vue')
         },
+        {
+          path: '/saleslist',
+          name: 'saleslist',
+          component: () => import( './views/SalesList/SalesList.vue')
+        },
+        {
+          path: '/commodityout',
+          name: 'commodityout',
+          component: () => import( './views/CommodityOut/CommodityOut.vue')
+        },
+        {
+          path: '/productreturn',
+          name: 'productreturn',
+          component: () => import( './views/ProductReturn/ProductReturn.vue')
+        }
       ]
     },
    
