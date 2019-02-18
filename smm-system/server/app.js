@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/goods');
-var usersRouter = require('./routes/account');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -37,7 +37,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(5555, () => {
-  console.log('服务器启动成功，地址是：http://127.0.0.1:5555')
-})
+app.listen(5555,()=>{
+  console.log("后台服务器启动成功，地址是：http://127.0.0.1:5555")
+});
 module.exports = app;
