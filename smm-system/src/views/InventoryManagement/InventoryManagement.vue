@@ -86,7 +86,7 @@ export default {
       },
       editid: "",
       total: 0,
-      currentPage: 1 ,
+      currentPage:1,
       pageSize:5
     };
   },
@@ -128,7 +128,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.getGoodsListByPage();
+      this.getInventoryListByPage();
     },
     handleEdit(id) {
       this.editid = id;

@@ -92,11 +92,10 @@ export default {
         totalinventory: "",
         totalsales: ""
       },
-      editid:"",
-      total:0,
+      editid: "",
+      total: 0,
       currentPage: 1, // 当前页
-      pageSize:3
-
+      pageSize: 3
     };
   },
   created() {
@@ -104,71 +103,53 @@ export default {
     this.getGoodsListByPage();
   },
   methods: {
-    getGoodsList() {
-      this.axios
-        .get("http://127.0.0.1:5555/goods/goodsmanagment")
-        .then(response => {
-          this.goodsInfor = response.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-      //分页
-    getGoodsListByPage() {
+    // getGoodsList() {
+    //   this.axios
+    //     .get("http://127.0.0.1:5555/goods/goodsmanagment")
+    //     .then(response => {
+    //       this.goodsInfor = response.data;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
+    //分页
+    getGoodsListByPage(){
       let pageSize = this.pageSize;
       let currentPage = this.currentPage;
       this.axios
-        .get("http://127.0.0.1:5555/goods/goodslistbypage",{params:{
-          pageSize,
-          currentPage
-        }
+        .get("http://127.0.0.1:5555/goods/goodslistbypage", {
+          params: {
+            pageSize,
+            currentPage
+          }
         })
-        .then(response=>{
-          let {total,data}=response.data;
-         this.total = total;
+        .then(response => {
+          let { total, data } = response.data;
+          this.total = total;
           this.goodsInfor = data;
-          if ( !data.length && this.currentPage !== 1) {
+          if (!data.length && this.currentPage !== 1) {
             this.currentPage -= 1;
             this.getGoodsListByPage();
           }
         })
         .catch(err => {
-          console.log(err)
-        })
-      },
-       handleSizeChange(val) {
-      // 保存每页显示的条数
+          console.log(err);
+        });
+    },
+    handleSizeChange(val) {
       this.pageSize = val;
-      // 调用分页函数
       this.getGoodsListByPage();
     },
-    // 当前页码改变 就会触发这个函数
+
     handleCurrentChange(val) {
-      // 保存当前页码
       this.currentPage = val;
-      // 调用分页函数
       this.getGoodsListByPage();
     },
     //编辑
     handleEdit(id) {
       this.editid = id;
-      this.axios
-        .get(`http://127.0.0.1:5555/goods/goodsedit?id=${id}`)
-        .then(response => {
-          let { error_code, reason } = response.data;
-
-          // 根据后端响应的数据判断
-          if (error_code === 0) {
-            // 弹出成功的提示
-            this.$message({
-              type: "success",
-              message: reason
-            });
-          } else {
-            this.$message.error(reason);
-          }
-        });
+      this.$router.push({ name: "GoodsAdd", params: { id } });
     },
     //删除
     handleDelete(id) {
@@ -202,8 +183,7 @@ export default {
             message: "删除取消"
           });
         });
-    },
-  
+    }
   }
 };
 </script>
@@ -248,8 +228,8 @@ export default {
           background-color: rgba(11, 133, 96, 0.86);
         }
       }
-      .el-pagination__jump{
-        color:#fff;
+      .el-pagination__jump {
+        color: #fff;
       }
     }
   }

@@ -70,6 +70,7 @@
 
 <script>
 import qs from "qs";
+import moment from "moment";
 
 export default {
   data() {
@@ -77,20 +78,20 @@ export default {
       if (value === "") {
         callback();
       } else {
-        let patrn =/^\d+(\.\d+)?$/;
+        let patrn = /^\d+(\.\d+)?$/;
         if (!patrn.test(value)) {
           callback(new Error("格式必须为数字"));
         }
         callback();
       }
     };
-    const checkLen=(rule,value,callback)=>{
-        if (value === "") {
+    const checkLen = (rule, value, callback) => {
+      if (value === "") {
         callback();
-      } else if(value.length>200){
-         callback(new Error("不超过200汉字"));
-    } 
-         callback();
+      } else if (value.length > 200) {
+        callback(new Error("不超过200汉字"));
+      }
+      callback();
     };
     return {
       goodsForm: {
@@ -148,10 +149,11 @@ export default {
             units: this.goodsForm.units,
             offer: this.goodsForm.offer,
             sales: this.goodsForm.sales,
-            description: this.goodsForm.description
+            description: this.goodsForm.description,
+            id: this.$route.params.id
           };
           this.axios
-            .post("http://127.0.0.1:5555/goods/goodsadd", qs.stringify(params))
+            .post("http://127.0.0.1:5555/goods/savegoods", qs.stringify(params))
             .then(response => {
               let { error_code, reason } = response.data;
 
@@ -179,13 +181,68 @@ export default {
         }
       });
     },
-    createCode(){
-      var Num=""; 
-      for(var i=0;i<7;i++) 
-      { 
-      Num+=Math.floor(Math.random()*10); 
-      } 
-      this.goodsForm.code=Num;
+    createCode() {
+      var Num = "";
+      for (var i = 0; i < 7; i++) {
+        Num += Math.floor(Math.random() * 10);
+      }
+      this.goodsForm.code = Num;
+    },
+    // saveGoods(id){
+    //   let params = {
+    //         classify: this.goodsForm.classify,
+    //         code: this.goodsForm.code,
+    //         goodsname: this.goodsForm.goodsname,
+    //         price: this.goodsForm.price,
+    //         vendibility: this.goodsForm.vendibility,
+    //         purchase: this.goodsForm.purchase,
+    //         quantity: this.goodsForm.quantity,
+    //         weight: this.goodsForm.weight,
+    //         units: this.goodsForm.units,
+    //         offer: this.goodsForm.offer,
+    //         sales: this.goodsForm.sales,
+    //         description: this.goodsForm.description,
+    //         id: id
+    //       };
+    //       this.axios
+    //         .post("http://127.0.0.1:5555/goods/savegoods", qs.stringify(params))
+    //         .then(response => {
+    //           let { error_code, reason } = response.data;
+
+    //           // 根据后端响应的数据判断
+    //           if (error_code === 0) {
+    //             // 弹出成功的提示
+    //             this.$message({
+    //               type: "success",
+    //               message: reason
+    //             });
+
+    //             // 跳转到账号管理列表
+    //             this.$router.push("/goodsmanagement");
+    //           } else {
+    //             // 弹出失败的提示
+    //             this.$message.error(reason);
+    //           }
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    // },
+    getGoodsList(id) {
+      this.axios
+        .get(`http://127.0.0.1:5555/goods/goodslist?id=${id}`)
+        .then(response => {
+          this.goodsForm = response.data[0];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  created() {
+    let id = this.$route.params.id;
+    if (id) {
+      this.getGoodsList(id);
     }
   }
 };

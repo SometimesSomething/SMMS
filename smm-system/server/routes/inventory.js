@@ -40,14 +40,13 @@ router.get('/inventorylistbypage', (req, res) => {
     let total = data.length;
     let n = (currentPage - 1) * 5;
     sqlStr += ` limit ${n},5`;
-    console.log(currentPage,n)
     connection.query(sqlStr, (err, data) => {
       if (err) throw err;
       res.send({
         total,
         data
       })
-    });
+    })
   })
 });
 

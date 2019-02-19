@@ -1,22 +1,26 @@
 <template>
+  <div class="index">
+    <el-container>
+      <!--导航组件-->
+      <Nav></Nav>
 
-    <div class="index">
-        <el-container>
-            <!--导航组件-->
-            <Nav></Nav>
+      <el-container>
+        <!--头部组件-->
+        <el-header>
+          <Top></Top>
+        </el-header>
 
-            <el-container>
-                <!--头部组件-->
-                <el-header><Top></Top></el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
 
-                <el-main><router-view></router-view></el-main>
-
-                <!--尾部组件-->
-                <el-footer><Bottom></Bottom></el-footer>
-            </el-container>
-        </el-container>
-    </div>
-
+        <!--尾部组件-->
+        <el-footer>
+          <Bottom></Bottom>
+        </el-footer>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -25,30 +29,30 @@ import Nav from "@/components/Nav/Nav.vue";
 import Top from "@/components/Top/Top.vue";
 import Bottom from "@/components/Bottom/Bottom.vue";
 
-
 export default {
-    components:{
-        Nav,
-        Top,
-        Bottom
-    }
+  components: {
+    Nav,
+    Top,
+    Bottom
+  }
 };
-
 </script>
 <style lang="less">
-    body,html,#app{
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
+body,
+html,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  .index {
+    width: 100%;
+    height: 100%;
+    background: url("../../assets/1.4.jpg");
+    .el-container {
+      width: 100%;
+      height: 100%;
     }
-    .index{
-        background: url("../../assets/1.4.jpg") ;
-        .el-main{
-            height: 100%;
-        }
-    }
-
-
-
+  }
+}
 </style>
