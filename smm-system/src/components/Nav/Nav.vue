@@ -57,7 +57,7 @@
         color: #fff;
         text-align: center;
         line-height: 200px;
-        height: 100vh;
+
         .title{
             margin: 0;padding: 16px 0;
             line-height: 30px;

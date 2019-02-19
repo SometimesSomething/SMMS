@@ -208,6 +208,10 @@ export default {
 };
 </script>
 <style lang=less>
+  .index{
+    height:130%;
+
+  }
 .el-main {
   line-height: 0;
   .goodsmanagement {
@@ -227,7 +231,7 @@ export default {
               .el-button--success {
                 margin-left: 20px;
                 background: rgba(11, 133, 96, 0.86);
-                border: rgba(11, 133, 96, 0.86);
+                border:rgba(11, 133, 96, 0.86);
               }
               .el-form-item {
                 .el-form-item__content {
@@ -244,8 +248,12 @@ export default {
     .el-pagination {
       margin-top: 20px;
       .el-pager {
+        li.number{
+          color:  rgba(11, 133, 96, 0.86);
+        }
         li.active {
           background-color: rgba(11, 133, 96, 0.86);
+          color: #fff;
         }
       }
       .el-pagination__jump{

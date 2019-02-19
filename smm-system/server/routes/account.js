@@ -42,6 +42,25 @@ router.get("/AccountList",(req,res)=>{
     })
 });
 
+//分页显示账号列表
+router.get("/accountListpage",(req,res)=>{
+    let{pageSize,currentPage} =req.query;
+    pageSize =pageSize ?pageSize:3;
+    currentPage =currentPage ?currentPage:1;
+    let sqlStr = `select * from account order by ctime desc`;
+    connection.query(sqlStr,(err,data)=>{
+        if(err)throw err;
+        let total = data.length;
+        let n = (currentPage -1)*pageSize;
+        sqlStr += ` limit ${n}, ${pageSize}`;
+        console.log(sqlStr);
+        connection.query(sqlStr,(err,data)=>{
+            if(err)throw err;
+            res.send({total,data})
+        })
+    })
+});
+
 //删除账号路由
 router.get("/AccountDel",(req,res)=>{
     let {id} =req.query;
@@ -86,5 +105,19 @@ router.post("/SaveeditAccount",(req,res)=>{
         }
     });
 
+});
+
+//批量删除路由
+router.get("/batchDelete",(req,res)=>{
+    let {selectedId} = req.query;
+    const sqlStr = `delete from account where id in(${selectedId})`;
+    connection.query(sqlStr,(err,data)=>{
+        if(err)throw err;
+        if(data.affectedRows>0){
+            res.send({"error_code":0,"reason":"删除数据成功"});
+        }else{
+            res.send({"error_code":1,"reason":"删除数据失败"});
+        }
+    })
 });
 module.exports = router;

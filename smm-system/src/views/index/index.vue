@@ -43,10 +43,14 @@ export default {
         width: 100%;
     }
     .index{
-        background: url("../../assets/1.4.jpg") ;
-        .el-main{
+        height: 100%;
+        width: 100%;
+        .el-container{
             height: 100%;
+            width: 100%;
         }
+        background: url("../../assets/1.4.jpg") ;
+
     }
 
 

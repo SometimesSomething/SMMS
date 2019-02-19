@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import qs from "qs";
 export default {
      data() {
          const password=(rule,value,callback)=>{
@@ -84,8 +85,23 @@ export default {
                 username:this.loginForm.username,
                 password:this.loginForm.pass,
             };
-            console.log(params);
-              this.$router.push("/")
+            this.axios.post("http://127.0.0.1:5555/login/checklogin", qs.stringify(params))
+                .then(response=>{
+                    let{error_code,reason} = response.data;
+                    if(error_code === 0){
+                        this.$message({
+                            type:"success",
+                            message:reason
+                        });
+                        this.$router.push("/");
+                    }else {
+                        this.$message.error(reason)
+                    }
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+
           } else {
             console.log('error submit!!');
             return false;
