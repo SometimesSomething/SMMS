@@ -33,7 +33,7 @@ router.post('/commoditystorage', (req, res) => {
 // });
 
 router.get('/inventorylistbypage', (req, res) => {
-  let {currentPage} = req.query;
+  let { currentPage } = req.query;
   let sqlStr = `select * from goods`;
   connection.query(sqlStr, (err, data) => {
     if (err) throw err;
@@ -60,7 +60,6 @@ router.get('/inventoryedit', (req, res) => {
   });
 })
 
-
 router.get('/inventorydelete', (req, res) => {
   let { id } = req.query;
   console.log(id)
@@ -76,7 +75,22 @@ router.get('/inventorydelete', (req, res) => {
       res.send({ "error_code": 1, "reason": "删除数据失败" });
     }
   })
+});
+router.get('/search', (req, res) => {
+  let { classify, keyword } = req.query;
+  let sqlStr = `select * from goods where 1=1`
+  if (classify) {
+    sqlStr += ` and classify='${classify}'`;
+  }
+  if (keyword) {
+    sqlStr += ` and (goodsname like '%${keyword}%' or code like '%${keyword}%')`
+  }
+
+  connection.query(sqlStr, (err, data) => {
+    if (err) throw err;
+    res.send(data)
+  })
 })
 
 
-  module.exports = router;
+module.exports = router;

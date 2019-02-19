@@ -5,12 +5,12 @@
         <span class="title">库存管理</span>
       </div>
       <div class="text item">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form :model="searchForm" label-width="80px">
           <el-row>
             <el-col :span="4">
               <div class="grid-content bg-purple">
-                <el-form-item label>
-                  <el-select v-model="form.classify" placeholder="---选择分类---">
+                <el-form-item label="选择分类:">
+                  <el-select v-model="searchForm.classify" placeholder="---选择分类---">
                     <el-option label="饮料冲调" value="饮料冲调"></el-option>
                     <el-option label="休闲食品" value="休闲食品"></el-option>
                     <el-option label="家居日用" value="家居日用"></el-option>
@@ -24,19 +24,19 @@
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
                 <el-form-item label="关键字：">
-                  <el-input v-model="form.keyword"></el-input>
+                  <el-input v-model="searchForm.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
-                <el-button type="success" round>查询</el-button>
+                <el-button type="success" round @click="search()">查询</el-button>
               </div>
             </el-col>
           </el-row>
         </el-form>
       </div>
-      <el-table :data=" goodsInfor" stripe style="width: 100%">
+      <el-table :data="inventoryInfor" stripe style="width: 100%">
         <el-table-column prop="code" label="商品条形码" width="180"></el-table-column>
         <el-table-column prop="goodsname" label="商品名称" width="180"></el-table-column>
         <el-table-column prop="purchase" label="进价(元)" width="180"></el-table-column>
@@ -75,15 +75,18 @@ import qs from "qs";
 export default {
   data() {
     return {
-      goodsInfor: [],
-      form: {
+      searchForm: {
+        classify: "",
+        keyword: ""
+      },
+      inventoryInfor: [{
         code: "",
         goodsname: "",
         purchase: "",
         storage: "",
         quantity: "",
         sold: ""
-      },
+      }],
       editid: "",
       total: 0,
       currentPage:1,
@@ -116,7 +119,7 @@ export default {
         .then(response => {
           let { total, data } = response.data;
           this.total = total;
-          this.goodsInfor = data;
+          this.inventoryInfor = data;
           if (!data.length && this.currentPage !== 1) {
             this.currentPage -= 1;
             this.getInventoryListByPage();
@@ -181,6 +184,20 @@ export default {
             message: "删除取消"
           });
         });
+    },
+    search(){
+      let classify = this.searchForm.classify;
+      let keyword = this.searchForm.keyword;
+      this.axios.get("http://127.0.0.1:5555/inventory/search", {
+        params: {
+          classify,
+          keyword
+        }
+      }).then(response=>{
+        this.inventoryInfor=response.data;
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   }
 };

@@ -5,12 +5,12 @@
         <span class="title">商品管理</span>
       </div>
       <div class="text item">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form :model="searchForm" label-width="80px">
           <el-row>
             <el-col :span="4">
               <div class="grid-content bg-purple">
-                <el-form-item label>
-                  <el-select v-model="form.classify" placeholder="---选择分类---">
+                <el-form-item label="选择分类:">
+                  <el-select v-model="searchForm.classify" placeholder="---选择分类---">
                     <el-option label="饮料冲调" value="饮料冲调"></el-option>
                     <el-option label="休闲食品" value="休闲食品"></el-option>
                     <el-option label="家居日用" value="家居日用"></el-option>
@@ -24,13 +24,13 @@
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
                 <el-form-item label="关键字：">
-                  <el-input v-model="form.keyword"></el-input>
+                  <el-input v-model="searchForm.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
-                <el-button type="success" round>查询</el-button>
+                <el-button type="success" round @click="search()">查询</el-button>
               </div>
             </el-col>
           </el-row>
@@ -80,18 +80,23 @@ import qs from "qs";
 export default {
   data() {
     return {
-      goodsInfor: [],
-      form: {
+      searchForm: {
         classify: "",
-        code: "",
-        goodsname: "",
-        price: "",
-        vendibility: "",
-        quantity: "",
-        saleprice: "",
-        totalinventory: "",
-        totalsales: ""
+        keyword: ""
       },
+      goodsInfor: [
+        {
+          classify: "",
+          code: "",
+          goodsname: "",
+          price: "",
+          vendibility: "",
+          quantity: "",
+          saleprice: "",
+          totalinventory: "",
+          totalsales: ""
+        }
+      ],
       editid: "",
       total: 0,
       currentPage: 1, // 当前页
@@ -114,7 +119,7 @@ export default {
     //     });
     // },
     //分页
-    getGoodsListByPage(){
+    getGoodsListByPage() {
       let pageSize = this.pageSize;
       let currentPage = this.currentPage;
       this.axios
@@ -141,7 +146,6 @@ export default {
       this.pageSize = val;
       this.getGoodsListByPage();
     },
-
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getGoodsListByPage();
@@ -183,6 +187,20 @@ export default {
             message: "删除取消"
           });
         });
+    },
+    search(){
+      let classify = this.searchForm.classify;
+      let keyword = this.searchForm.keyword;
+      this.axios.get("http://127.0.0.1:5555/goods/search", {
+        params: {
+          classify,
+          keyword
+        }
+      }).then(response=>{
+        this.goodsInfor=response.data;
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   }
 };

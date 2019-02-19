@@ -119,6 +119,21 @@ router.post('/savegoods', (req, res) => {
   }
 
 
+});
+router.get('/search', (req, res) => {
+  let { classify, keyword } = req.query;
+  let sqlStr = `select * from goods where 1=1`
+  if (classify) {
+    sqlStr += ` and classify='${classify}'`;
+  }
+  if (keyword) {
+    sqlStr += ` and (goodsname like '%${keyword}%' or code like '%${keyword}%')`
+  }
+
+  connection.query(sqlStr, (err, data) => {
+    if (err) throw err;
+    res.send(data)
+  })
 })
 
 
