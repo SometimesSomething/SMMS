@@ -5,12 +5,12 @@
         <span class="title">商品管理</span>
       </div>
       <div class="text item">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form :model="searchForm" label-width="80px">
           <el-row>
             <el-col :span="4">
               <div class="grid-content bg-purple">
-                <el-form-item label>
-                  <el-select v-model="form.classify" placeholder="---选择分类---">
+                <el-form-item label="选择分类:">
+                  <el-select v-model="searchForm.classify" placeholder="---选择分类---">
                     <el-option label="饮料冲调" value="饮料冲调"></el-option>
                     <el-option label="休闲食品" value="休闲食品"></el-option>
                     <el-option label="家居日用" value="家居日用"></el-option>
@@ -24,13 +24,13 @@
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
                 <el-form-item label="关键字：">
-                  <el-input v-model="form.keyword"></el-input>
+                  <el-input v-model="searchForm.keyword"></el-input>
                 </el-form-item>
               </div>
             </el-col>
             <el-col :span="4">
               <div class="grid-content bg-purple-light">
-                <el-button type="success" round>查询</el-button>
+                <el-button type="success" round @click="search()">查询</el-button>
               </div>
             </el-col>
           </el-row>
@@ -80,23 +80,27 @@ import qs from "qs";
 export default {
   data() {
     return {
-      goodsInfor: [],
-      form: {
+      searchForm: {
         classify: "",
-        code: "",
-        goodsname: "",
-        price: "",
-        vendibility: "",
-        quantity: "",
-        saleprice: "",
-        totalinventory: "",
-        totalsales: ""
+        keyword: ""
       },
-      editid:"",
-      total:0,
+      goodsInfor: [
+        {
+          classify: "",
+          code: "",
+          goodsname: "",
+          price: "",
+          vendibility: "",
+          quantity: "",
+          saleprice: "",
+          totalinventory: "",
+          totalsales: ""
+        }
+      ],
+      editid: "",
+      total: 0,
       currentPage: 1, // 当前页
-      pageSize:3
-
+      pageSize: 3
     };
   },
   created() {
@@ -104,71 +108,52 @@ export default {
     this.getGoodsListByPage();
   },
   methods: {
-    getGoodsList() {
-      this.axios
-        .get("http://127.0.0.1:5555/goods/goodsmanagment")
-        .then(response => {
-          this.goodsInfor = response.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-      //分页
+    // getGoodsList() {
+    //   this.axios
+    //     .get("http://127.0.0.1:5555/goods/goodsmanagment")
+    //     .then(response => {
+    //       this.goodsInfor = response.data;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
+    //分页
     getGoodsListByPage() {
       let pageSize = this.pageSize;
       let currentPage = this.currentPage;
       this.axios
-        .get("http://127.0.0.1:5555/goods/goodslistbypage",{params:{
-          pageSize,
-          currentPage
-        }
+        .get("http://127.0.0.1:5555/goods/goodslistbypage", {
+          params: {
+            pageSize,
+            currentPage
+          }
         })
-        .then(response=>{
-          let {total,data}=response.data;
-         this.total = total;
+        .then(response => {
+          let { total, data } = response.data;
+          this.total = total;
           this.goodsInfor = data;
-          if ( !data.length && this.currentPage !== 1) {
+          if (!data.length && this.currentPage !== 1) {
             this.currentPage -= 1;
             this.getGoodsListByPage();
           }
         })
         .catch(err => {
-          console.log(err)
-        })
-      },
-       handleSizeChange(val) {
-      // 保存每页显示的条数
+          console.log(err);
+        });
+    },
+    handleSizeChange(val) {
       this.pageSize = val;
-      // 调用分页函数
       this.getGoodsListByPage();
     },
-    // 当前页码改变 就会触发这个函数
     handleCurrentChange(val) {
-      // 保存当前页码
       this.currentPage = val;
-      // 调用分页函数
       this.getGoodsListByPage();
     },
     //编辑
     handleEdit(id) {
       this.editid = id;
-      this.axios
-        .get(`http://127.0.0.1:5555/goods/goodsedit?id=${id}`)
-        .then(response => {
-          let { error_code, reason } = response.data;
-
-          // 根据后端响应的数据判断
-          if (error_code === 0) {
-            // 弹出成功的提示
-            this.$message({
-              type: "success",
-              message: reason
-            });
-          } else {
-            this.$message.error(reason);
-          }
-        });
+      this.$router.push({ name: "GoodsAdd", params: { id } });
     },
     //删除
     handleDelete(id) {
@@ -203,7 +188,20 @@ export default {
           });
         });
     },
-  
+    search(){
+      let classify = this.searchForm.classify;
+      let keyword = this.searchForm.keyword;
+      this.axios.get("http://127.0.0.1:5555/goods/search", {
+        params: {
+          classify,
+          keyword
+        }
+      }).then(response=>{
+        this.goodsInfor=response.data;
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
   }
 };
 </script>
@@ -256,8 +254,8 @@ export default {
           color: #fff;
         }
       }
-      .el-pagination__jump{
-        color:#fff;
+      .el-pagination__jump {
+        color: #fff;
       }
     }
   }

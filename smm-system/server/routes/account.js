@@ -120,4 +120,31 @@ router.get("/batchDelete",(req,res)=>{
         }
     })
 });
+
+router.get("/checkoldpwd",(req,res)=>{
+    let {oldPwd,username} =req.query;
+    const sqlStr = `select * from account where username="${username}" and password="${oldPwd}"`;
+    connection.query(sqlStr,(err,data)=>{
+        if(err)throw err;
+        if(data.length){
+            res.send({"error_code":0,"reason":"原密码一致"})
+        }else{
+            res.send({"error_code":1,"reason":"与原密码不一致"})
+        }
+    })
+});
+
+router.post("/savenewpwd",(req,res)=>{
+    let {username,oldpwd,newpwd}=req.body;
+    const sqlStr = `update account set password="${newpwd}" where username="${username}" and password="${oldpwd}"`;
+    console.log(sqlStr)
+    connection.query(sqlStr,(err,data)=>{
+        if(err)throw err;
+        if(data.affectedRows>0){
+            res.send({"error_code":0,"reason":"修改密码成功"})
+        }else {
+            res.send({"error_code":1,"reason":"修改密码失败"})
+        }
+    })
+});
 module.exports = router;

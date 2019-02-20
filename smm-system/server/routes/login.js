@@ -1,1 +1,32 @@
-const express = require('express');const router = express.Router();const connection = require("./connect");router.all("*",(req,res,next)=>{    //设置响应头    res.setHeader("Access-Control-Allow-Origin", "*");    next();});/* GET users listing. */router.get('/', function(req, res, next) {    res.send('respond with a resource');});router.post("/checklogin",(req,res)=>{    let {username,password} = req.body;    const sqlStr = `select * from account where username="${username}" and password= "${password}"`;    connection.query(sqlStr,(err,data)=>{        if(err) throw err;        if(!data.length){            res.send({"error_code":1,"reason":"请检查用户或密码"});        }else{            res.send({"error_code":0,"reason":"欢迎，登陆成功"});        }        console.log(data)    })})module.exports = router;
+
+var express = require('express');
+var router = express.Router();
+
+var jwt=require('jsonwebtoken');
+
+const connection = require('./connect');
+
+router.all('*', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+router.post("/logincheck",(req,res)=>{
+    let{username,password}=req.body;
+    const secret='LOVEME';
+    const sqlStr=`select * from account where username='${username}' and password='${password}'`;
+    connection.query(sqlStr,(err,data)=>{
+        if (err) throw err;
+        if(data.length>0){
+            let dataStr=JSON.stringify(data[0]);
+            let  accountInfor=JSON.parse(dataStr);
+            console.log(accountInfor);
+            const token = jwt.sign(accountInfor, secret, { expiresIn:60*30});
+            res.send({"error_code":0,"reason":"密码正确","username":accountInfor.username ,token},)
+        }else{
+            res.send({"error_code":1,"reason":"密码错误"})
+        }
+    })
+});
+
+module.exports = router;
