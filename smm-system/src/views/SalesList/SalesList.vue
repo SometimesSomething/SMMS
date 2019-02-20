@@ -89,8 +89,8 @@ export default {
   },
   methods: {
     getStorageList() {
-      this.axios
-        .get("http://127.0.0.1:5555/inventory/inventorymanagement")
+      this.request
+        .get("/inventory/inventorymanagement")
         .then(response => {
           this.goodsInfor = response.data;
         })
@@ -100,10 +100,13 @@ export default {
     },
     handleEdit(id) {
       this.editid = id;
-      this.axios
-        .get(`http://127.0.0.1:5555/inventory/inventoryedit?id=${id}`)
+      let params={
+        id
+      }
+      this.request
+        .get(`/inventory/inventoryedit`,params)
         .then(response => {
-          let { error_code, reason } = response.data;
+          let { error_code, reason } = response;
 
           // 根据后端响应的数据判断
           if (error_code === 0) {
@@ -125,10 +128,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.axios
-            .get(`http://127.0.0.1:5555/inventory/inventorydelete?id=${id}`)
+           let params={
+        id
+      }
+          this.request
+            .get(`/inventory/inventorydelete`,params)
             .then(response => {
-              let { error_code, reason } = response.data;
+              let { error_code, reason } = response;
               // 根据后端响应的数据判断
               if (error_code === 0) {
                 this.getGoodsList();

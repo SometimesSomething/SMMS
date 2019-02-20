@@ -152,10 +152,10 @@ export default {
             description: this.goodsForm.description,
             id: this.$route.params.id
           };
-          this.axios
-            .post("http://127.0.0.1:5555/goods/savegoods", qs.stringify(params))
+          this.request
+            .post("/goods/savegoods",params)
             .then(response => {
-              let { error_code, reason } = response.data;
+              let { error_code, reason } = response;
 
               // 根据后端响应的数据判断
               if (error_code === 0) {
@@ -204,7 +204,7 @@ export default {
     //         description: this.goodsForm.description,
     //         id: id
     //       };
-    //       this.axios
+    //       this.request
     //         .post("http://127.0.0.1:5555/goods/savegoods", qs.stringify(params))
     //         .then(response => {
     //           let { error_code, reason } = response.data;
@@ -229,7 +229,7 @@ export default {
     //         });
     // },
     getGoodsList(id) {
-      this.axios
+      this.request
         .get(`http://127.0.0.1:5555/goods/goodslist?id=${id}`)
         .then(response => {
           this.goodsForm = response.data[0];

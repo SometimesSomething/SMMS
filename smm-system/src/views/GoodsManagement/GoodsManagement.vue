@@ -74,8 +74,6 @@
 <script>
 // 引入moment模块
 import moment from "moment";
-// 引入qs模块
-import qs from "qs";
 
 export default {
   data() {
@@ -109,7 +107,7 @@ export default {
   },
   methods: {
     // getGoodsList() {
-    //   this.axios
+    //   this.request
     //     .get("http://127.0.0.1:5555/goods/goodsmanagment")
     //     .then(response => {
     //       this.goodsInfor = response.data;
@@ -122,15 +120,14 @@ export default {
     getGoodsListByPage() {
       let pageSize = this.pageSize;
       let currentPage = this.currentPage;
-      this.axios
-        .get("http://127.0.0.1:5555/goods/goodslistbypage", {
-          params: {
-            pageSize,
-            currentPage
-          }
-        })
+      let params = {
+        pageSize,
+        currentPage
+      };
+      this.request
+        .get("/goods/goodslistbypage", params)
         .then(response => {
-          let { total, data } = response.data;
+          let { total, data } = response;
           this.total = total;
           this.goodsInfor = data;
           if (!data.length && this.currentPage !== 1) {
@@ -163,22 +160,23 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.axios
-            .get(`http://127.0.0.1:5555/goods/goodsdelete?id=${id}`)
-            .then(response => {
-              let { error_code, reason } = response.data;
-              // 根据后端响应的数据判断
-              if (error_code === 0) {
-                this.getGoodsListByPage();
-                // 弹出成功的提示
-                this.$message({
-                  type: "success",
-                  message: reason
-                });
-              } else {
-                this.$message.error(reason);
-              }
-            });
+          let params = {
+            id
+          };
+          this.request.get(`/goods/goodsdelete`, params).then(response => {
+            let { error_code, reason } = response;
+            // 根据后端响应的数据判断
+            if (error_code === 0) {
+              this.getGoodsListByPage();
+              // 弹出成功的提示
+              this.$message({
+                type: "success",
+                message: reason
+              });
+            } else {
+              this.$message.error(reason);
+            }
+          });
         })
         .catch(err => {
           // 弹出成功的提示
@@ -188,28 +186,29 @@ export default {
           });
         });
     },
-    search(){
+    search() {
       let classify = this.searchForm.classify;
       let keyword = this.searchForm.keyword;
-      this.axios.get("http://127.0.0.1:5555/goods/search", {
-        params: {
-          classify,
-          keyword
-        }
-      }).then(response=>{
-        this.goodsInfor=response.data;
-      }).catch(err=>{
-        console.log(err)
-      })
+      let params = {
+        classify,
+        keyword
+      };
+      this.request
+        .get("/goods/search", params)
+        .then(response => {
+          this.goodsInfor = response;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
 </script>
 <style lang=less>
-  .index{
-    height:130%;
-
-  }
+.index {
+  height: 130%;
+}
 .el-main {
   line-height: 0;
   .goodsmanagement {
@@ -229,7 +228,7 @@ export default {
               .el-button--success {
                 margin-left: 20px;
                 background: rgba(11, 133, 96, 0.86);
-                border:rgba(11, 133, 96, 0.86);
+                border: rgba(11, 133, 96, 0.86);
               }
               .el-form-item {
                 .el-form-item__content {
@@ -246,8 +245,8 @@ export default {
     .el-pagination {
       margin-top: 20px;
       .el-pager {
-        li.number{
-          color:  rgba(11, 133, 96, 0.86);
+        li.number {
+          color: rgba(11, 133, 96, 0.86);
         }
         li.active {
           background-color: rgba(11, 133, 96, 0.86);

@@ -6,6 +6,7 @@ const connection = require('./connect')
 /* goods page. */
 router.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "authorization");
   next();
 });
 
@@ -36,7 +37,7 @@ router.all('*', (req, res, next) => {
 router.get('/goodslistbypage', (req, res) => {
   let { pageSize, currentPage } = req.query;
   let sqlStr = `select * from goods order by ctime desc`;
-  connection.query(sqlStr, (err, data) => {
+  connection.query(sqlStr, (err, data) => { 
     if (err) throw err;
     let total = data.length;
     let n = (currentPage - 1) * pageSize;
@@ -63,7 +64,6 @@ router.get('/goodslistbypage', (req, res) => {
 
 router.get('/goodsdelete', (req, res) => {
   let { id } = req.query;
-  console.log(id)
   const sqlStr = ` delete from goods where id='${id}'`;
   connection.query(sqlStr, (err, data) => {
     if (err) throw err;
@@ -89,7 +89,6 @@ router.get('/goodslist', (req, res) => {
 });
 router.post('/savegoods', (req, res) => {
   let { classify, code, goodsname, price, vendibility, purchase, quantity, weight, units, offer, sales, description, id } = req.body;
-  console.log(id)
   if (id) {
     const sqlStr = `update goods set classify='${classify}',code='${code}',goodsname='${goodsname}',price='${price}',vendibility='${vendibility}',purchase='${purchase}',quantity='${quantity}',weight='${weight}',units='${units}',offer='${offer}',sales='${sales}', description='${description}' where id=${id}`;
     connection.query(sqlStr, (err, data) => {

@@ -3,7 +3,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router'
-import axios from 'axios';
+import request from "@/API/request"
 
 router.beforeEach((to,from,next)=>{
   let token=window.localStorage.getItem("token");
@@ -18,11 +18,10 @@ router.beforeEach((to,from,next)=>{
   }
 });
 
-Vue.prototype.axios = axios;
+Vue.prototype.request = request;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
-Vue.prototype.axios = axios;
 
 new Vue({
   router,

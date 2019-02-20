@@ -5,6 +5,7 @@ const connection = require('./connect')
 
 router.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "authorization");
   next();
 });
 
@@ -54,15 +55,13 @@ router.get('/inventoryedit', (req, res) => {
   let { id } = req.query;
   const sqlStr = `select * from goods where id=${id}`;
   connection.query(sqlStr, (err, data) => {
-    if (err)
-      throw err;
+    if (err) throw err;
     res.send(data);
   });
 })
 
 router.get('/inventorydelete', (req, res) => {
   let { id } = req.query;
-  console.log(id)
   const sqlStr = `delete from goods where id=${id}`;
   connection.query(sqlStr, (err, data) => {
     if (err) throw err;

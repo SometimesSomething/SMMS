@@ -41,7 +41,7 @@ export default {
     data () {
         return {
             username: "",
-            avatarUrl: 'http://127.0.0.1:8080/avatar.jpg'
+            avatarUrl: '../../assets/1.jpg'
         }
     },
     methods:{

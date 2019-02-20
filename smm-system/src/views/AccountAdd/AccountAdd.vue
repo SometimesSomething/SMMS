@@ -103,13 +103,12 @@
                             usergroup:this.addusersForm.usergroup,
                         };
                         // console.log("后台接收数据:",qs.stringify(params));
-                        //使用axios发送数据给后端
-                        this.axios.post("http://127.0.0.1:5555/Account/AccountAdd",qs.stringify(params))
+                        //使用request发送数据给后端
+                        this.request.post("/Account/AccountAdd",params)
                           .then(response =>{
-                              console.log(response.data);
-
-                              let {error_code,reason}= response.data;
-                              if(response.data.error_code ===0){
+                              console.log(response);
+                              let {error_code,reason}= response;
+                              if(response.error_code ===0){
                                   this.$message({
                                       message:reason,
                                       type: 'success'

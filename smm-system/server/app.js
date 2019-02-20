@@ -46,6 +46,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 app.listen(5555,()=>{
-  console.log("后台服务器启动成功，地址是：http://127.0.0.1:5555")
+  console.log("后台服务器启动成功，地址是：http://172.16.9.67:5555")
 });
 module.exports = app;

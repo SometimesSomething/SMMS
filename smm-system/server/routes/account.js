@@ -6,6 +6,7 @@ const connection = require("./connect");
 router.all("*",(req,res,next)=>{
     //设置响应头
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "authorization");
     next();
 });
 
@@ -137,7 +138,6 @@ router.get("/checkoldpwd",(req,res)=>{
 router.post("/savenewpwd",(req,res)=>{
     let {username,oldpwd,newpwd}=req.body;
     const sqlStr = `update account set password="${newpwd}" where username="${username}" and password="${oldpwd}"`;
-    console.log(sqlStr)
     connection.query(sqlStr,(err,data)=>{
         if(err)throw err;
         if(data.affectedRows>0){

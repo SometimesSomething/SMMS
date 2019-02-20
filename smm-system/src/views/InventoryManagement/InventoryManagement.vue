@@ -79,18 +79,20 @@ export default {
         classify: "",
         keyword: ""
       },
-      inventoryInfor: [{
-        code: "",
-        goodsname: "",
-        purchase: "",
-        storage: "",
-        quantity: "",
-        sold: ""
-      }],
+      inventoryInfor: [
+        {
+          code: "",
+          goodsname: "",
+          purchase: "",
+          storage: "",
+          quantity: "",
+          sold: ""
+        }
+      ],
       editid: "",
       total: 0,
-      currentPage:1,
-      pageSize:5
+      currentPage: 1,
+      pageSize: 5
     };
   },
   created() {
@@ -99,7 +101,7 @@ export default {
   },
   methods: {
     // getStorageList() {
-    //   this.axios
+    //   this.request
     //     .get("http://127.0.0.1:5555/inventory/inventorymanagement")
     //     .then(response => {
     //       this.goodsInfor = response.data;
@@ -110,14 +112,13 @@ export default {
     // },
     getInventoryListByPage() {
       let currentPage = this.currentPage;
-      this.axios
-        .get("http://127.0.0.1:5555/inventory/inventorylistbypage", {
-          params: {
-            currentPage
-          }
-        })
+      let params = {
+        currentPage
+      };
+      this.request
+        .get("/inventory/inventorylistbypage", params)
         .then(response => {
-          let { total, data } = response.data;
+          let { total, data } = response;
           this.total = total;
           this.inventoryInfor = data;
           if (!data.length && this.currentPage !== 1) {
@@ -135,22 +136,23 @@ export default {
     },
     handleEdit(id) {
       this.editid = id;
-      this.axios
-        .get(`http://127.0.0.1:5555/inventory/inventoryedit?id=${id}`)
-        .then(response => {
-          let { error_code, reason } = response.data;
+      let params = {
+        id
+      };
+      this.request.get(`/inventory/inventoryedit`, params).then(response => {
+        let { error_code, reason } = response;
 
-          // 根据后端响应的数据判断
-          if (error_code === 0) {
-            // 弹出成功的提示
-            this.$message({
-              type: "success",
-              message: reason
-            });
-          } else {
-            this.$message.error(reason);
-          }
-        });
+        // 根据后端响应的数据判断
+        if (error_code === 0) {
+          // 弹出成功的提示
+          this.$message({
+            type: "success",
+            message: reason
+          });
+        } else {
+          this.$message.error(reason);
+        }
+      });
     },
     //删除
     handleDelete(id) {
@@ -160,10 +162,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.axios
-            .get(`http://127.0.0.1:5555/inventory/inventorydelete?id=${id}`)
+          let params = {
+            id
+          };
+          this.request
+            .get(`/inventory/inventorydelete`, params)
             .then(response => {
-              let { error_code, reason } = response.data;
+              let { error_code, reason } = response;
               // 根据后端响应的数据判断
               if (error_code === 0) {
                 this.getInventoryListByPage();
@@ -185,19 +190,21 @@ export default {
           });
         });
     },
-    search(){
+    search() {
       let classify = this.searchForm.classify;
       let keyword = this.searchForm.keyword;
-      this.axios.get("http://127.0.0.1:5555/inventory/search", {
-        params: {
-          classify,
-          keyword
-        }
-      }).then(response=>{
-        this.inventoryInfor=response.data;
-      }).catch(err=>{
-        console.log(err)
-      })
+      let params = {
+        classify,
+        keyword
+      };
+      this.request
+        .get("/inventory/search", params)
+        .then(response => {
+          this.inventoryInfor = response;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

@@ -66,9 +66,9 @@ export default {
             purchase: this.inventoryForm.purchase,
             storage: this.inventoryForm.storage
           };
-          this.axios.post("http://127.0.0.1:5555/inventory/commoditystorage", qs.stringify(params))
+          this.request.post("/inventory/commoditystorage",params)
             .then(response => {
-              let { error_code, reason } = response.data;
+              let { error_code, reason } = response;
 
               // 根据后端响应的数据判断
               if (error_code === 0) {

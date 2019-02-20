@@ -63,9 +63,13 @@
 
             const checkoldpwd = (rule, value, callback) => {
                 let username = window.localStorage.getItem("username");
-                this.axios.get(`http://127.0.0.1:5555/account/checkoldpwd?oldPwd=${value}&username=${username}`)
+                let params={
+                    oldPwd:value,
+                    username
+                }
+                this.request.get(`/account/checkoldpwd`,params)
                     .then(response => {
-                        let {error_code, reason} = response.data;
+                        let {error_code, reason} = response;
                         if (error_code === 0) {
                             callback();
                         } else {
@@ -106,9 +110,9 @@
                             oldpwd: this.passwordmodify.oldpwd,
                             newpwd: this.passwordmodify.newpwd,
                         };
-                        this.axios.post("http://127.0.0.1:5555/account/savenewpwd", qs.stringify(params))
+                        this.request.post("/account/savenewpwd", params)
                             .then(response => {
-                                let {error_code, reason} = response.data;
+                                let {error_code, reason} = response;
                                 if (error_code === 0) {
                                     this.$message({
                                         type: "success",
